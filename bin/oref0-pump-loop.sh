@@ -255,9 +255,9 @@ function smb_bolus {
     # and administer the supermicrobolus
     find enact/ -mmin -5 | grep smb-suggested.json > /dev/null \
     && if (grep -q '"units":' enact/smb-suggested.json 2>/dev/null); then
-        # press ESC three times on the pump to exit Bolus Wizard before SMBing, to help prevent A52 errors
-        echo -n "Sending ESC ESC ESC to exit any open menus before SMBing: "
-        try_return openaps use pump press_keys esc esc esc | jq .completed | grep true \
+        # press ESC four times on the pump to exit Bolus Wizard before SMBing, to help prevent A52 errors
+        echo -n "Sending ESC ESC ESC ESC to exit any open menus before SMBing: "
+        try_return openaps use pump press_keys esc esc esc esc | jq .completed | grep true \
         && try_return openaps report invoke enact/bolused.json 2>&1 >/dev/null | tail -1 \
         && echo -n "enact/bolused.json: " && cat enact/bolused.json | jq -C -c . \
         && rm -rf enact/smb-suggested.json
